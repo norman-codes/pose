@@ -1,6 +1,6 @@
 # Individual Working Folder
 
-## Function
+## Purpose
 This folder was created to follow the instructions from Homework 1, Step 1:
 ```
 Step 1: Create Your Personal Folder
