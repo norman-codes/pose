@@ -10,6 +10,11 @@ Before proceeding, ensure your dataset is uploaded to the storage location you a
 
 The dataset I will use to fine-tune the MoveNet model to perform pose classification is uploaded onto Google Cloud Storage. This allows complete integration of dataset management with the tools necessary to train and explore the model using the products and services of one platform: Google.
 
+The sources used include Pexels, Unsplash, and Pixabay. Each of these photo sharing services have generous free licenses which allow images to be downloaded and used for commercial and non-commercial purposes for free. See their licenses below:
+- [Pexels license](https://www.pexels.com/license/)
+- [Unsplash license](https://unsplash.com/license)
+- [Pixabay license](https://pixabay.com/service/license-summary/)
+
 ## Purpose
 This folder was created to follow the instructions from Homework 1, Step 1:
 ```
