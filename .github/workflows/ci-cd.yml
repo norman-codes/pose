@@ -1,0 +1,32 @@
+name: CI/CD for Docker Compose
+
+on:
+  push:
+    branches:
+      - main  # Run workflow on pushes to the main branch
+  pull_request:
+    branches:
+      - main  # Run workflow on pull requests targeting the main branch
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Build Docker Compose services
+      - name: Build Docker Compose
+        run: |
+          docker-compose -f deployment/docker-compose.yml build
+
+      # Test Docker Compose services
+      - name: Test Docker Compose
+        run: |
+          docker-compose -f deployment/docker-compose.yml up --exit-code-from pose_app
