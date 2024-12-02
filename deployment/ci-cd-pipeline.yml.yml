@@ -30,7 +30,39 @@ jobs:
         run: |
           docker-compose -f deployment/docker-compose.yml build
 
-      # Test Docker Compose services
-      - name: Test Docker Compose
+      # Start services in detached mode
+      - name: Start Docker Compose Services
         run: |
-          docker-compose -f deployment/docker-compose.yml up --exit-code-from pose_app
+          docker-compose -f deployment/docker-compose.yml up -d
+
+      # Wait for services to be accessible
+      - name: Check Service Accessibility
+        run: |
+          echo "Checking if services are accessible..."
+
+          # Check Gradio app
+          for i in {1..30}; do
+            curl -f http://localhost:7860 && echo "Gradio app is accessible!" && break
+            echo "Gradio app not yet accessible. Retrying..."
+            sleep 10
+          done
+
+          # Check Prometheus
+          for i in {1..30}; do
+            curl -f http://localhost:9090 && echo "Prometheus is accessible!" && break
+            echo "Prometheus not yet accessible. Retrying..."
+            sleep 10
+          done
+
+          # Check Grafana
+          for i in {1..30}; do
+            curl -f http://localhost:3000 && echo "Grafana is accessible!" && break
+            echo "Grafana not yet accessible. Retrying..."
+            sleep 10
+          done
+
+
+      # Stop services after health checks
+      - name: Stop Docker Compose Services
+        run: |
+          docker-compose -f deployment/docker-compose.yml down
