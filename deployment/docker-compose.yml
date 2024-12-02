@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  pose_app:
+    build:
+      context: ../
+      dockerfile: deployment/Dockerfile
+    ports:
+      - "7860:7860"  # Map Gradio app port
+      - "8000:8000"  # Map Prometheus metrics port
+    networks:
+      - app_network
+    volumes:
+      - ../src/models:/app/models  # Ensure models are accessible
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ../monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"  # Prometheus UI
+    networks:
+      - app_network
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"  # Grafana UI
+    networks:
+      - app_network
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../monitoring/grafana:/etc/grafana/provisioning
+
+volumes:
+  grafana_data:
+
+networks:
+  app_network:

@@ -1,0 +1,54 @@
+# Byte-compiled and other Python-related files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.sqlite3
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment directories
+venv/
+.env/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor-specific files
+.vscode/
+.idea/
+*.swp
+
+# Docker-related files
+docker-compose.override.yml
+.dockerignore
+
+# Monitoring and deployment artifacts
+monitoring/prometheus/data/
+monitoring/grafana/data/
+grafana_data/
+prometheus_data/
+
+# Videos and large media files (optional)
+videos/system_demo.mp4
+
+# Environment variable files (if used)
+.env
+.env.*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Ignore sensitive configuration files
+config.yml
+secrets.yml
+*.key
+*.crt
+
+# Git-specific files
+*.orig
