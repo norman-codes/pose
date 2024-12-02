@@ -38,8 +38,27 @@ jobs:
       # Wait for services to be healthy
       - name: Wait for Health Checks
         run: |
-          docker-compose -f deployment/docker-compose.yml ps
-          docker-compose -f deployment/docker-compose.yml ps | grep "healthy"
+          echo "Waiting for all services to become healthy..."
+          MAX_RETRIES=10
+          RETRY_INTERVAL=10
+          RETRIES=0
+
+          while [ $RETRIES -lt $MAX_RETRIES ]; do
+            STATUS=$(docker-compose -f deployment/docker-compose.yml ps | grep "starting")
+            if [ -z "$STATUS" ]; then
+              echo "All services are healthy!"
+              break
+            fi
+            echo "Services are still starting. Retrying in $RETRY_INTERVAL seconds..."
+            RETRIES=$((RETRIES + 1))
+            sleep $RETRY_INTERVAL
+          done
+
+          if [ $RETRIES -eq $MAX_RETRIES ]; then
+            echo "Timeout: Some services did not become healthy in time."
+            docker-compose -f deployment/docker-compose.yml ps
+            exit 1
+          fi
 
       # Stop services after health checks
       - name: Stop Docker Compose Services
