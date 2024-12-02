@@ -14,9 +14,9 @@ services:
       - ../src/models:/app/models  # Ensure models are accessible
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:7860 || exit 1"]  # Check Gradio app
-      interval: 10s  # Check every 10 seconds
-      timeout: 5s    # Mark as failed if it doesn't respond in 5 seconds
-      retries: 3     # Fail if 3 consecutive checks fail
+      interval: 30s  # Check every 30 seconds
+      timeout: 20s    # Mark as failed if it doesn't respond in 20 seconds
+      retries: 5     # Fail if 5 consecutive checks fail
 
   prometheus:
     image: prom/prometheus
@@ -28,9 +28,9 @@ services:
       - app_network
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:9090 || exit 1"]  # Check Prometheus
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 30s
+      timeout: 20s
+      retries: 5
 
   grafana:
     image: grafana/grafana
@@ -43,9 +43,9 @@ services:
       - ../monitoring/grafana:/etc/grafana/provisioning
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:3000 || exit 1"]  # Check Grafana
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 30s
+      timeout: 20s
+      retries: 5
 
 volumes:
   grafana_data:
