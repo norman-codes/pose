@@ -30,7 +30,18 @@ jobs:
         run: |
           docker-compose -f deployment/docker-compose.yml build
 
-      # Test Docker Compose services
-      - name: Test Docker Compose
+      # Start services in detached mode
+      - name: Start Docker Compose Services
         run: |
-          docker-compose -f deployment/docker-compose.yml up --exit-code-from pose_app
+          docker-compose -f deployment/docker-compose.yml up -d
+
+      # Wait for services to be healthy
+      - name: Wait for Health Checks
+        run: |
+          docker-compose -f deployment/docker-compose.yml ps
+          docker-compose -f deployment/docker-compose.yml ps | grep "healthy"
+
+      # Stop services after health checks
+      - name: Stop Docker Compose Services
+        run: |
+          docker-compose -f deployment/docker-compose.yml down
